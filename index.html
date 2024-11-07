@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Click Speed Test</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%22-0.1em%22 y=%22.90em%22 font-size=%2286%22>⚡</text></svg>">
+
+    <meta name="description" content="Clicks-per-second meter with dynamic counting and auto reset">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Click Speed Test⚡">
+    <meta property="og:site_name" content="Click Speed Test">
+    <meta property="og:url" content="https://github.com/SarahGh78200/ClickFast.git">
+    <meta property="og:description" content="Clicks-per-second meter with dynamic counting and auto reset">
+    <meta property="og:type" content="website">
+
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#333">
+
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <!-- <h1 style="visibility: hidden;">
+        Click Speed Test⚡
+    </h1> -->
+
+    <aside class="section b-r b-b" x-data="history()" x-init="fetch()" @store.window="store($event)">
+        <h2>
+            Best rates:
+        </h2>
+
+        <button class="section__help-btn" title="Top 20 maximum average CPS">?</button>
+
+        <ol class="history">
+            <template x-for="(data, index) in history" :key="index">
+                <li class="history__item" x-html="getDisplay(data, 4)"></li>
+            </template>
+        </ol>
+    </aside>
+
+    <main x-data="clickSpeedTest()" x-init="restart()">
+        <section class="section section--span-2 b-r b-b">
+            <h2>
+                Instant <abbr title="Clicks Per Second">CPS</abbr>:
+            </h2>
+
+            <button class="section__help-btn" title="Frequency between simultaneous clicks">?</button>
+
+            <div class="value" x-html="instantCpsDisplay"></div>
+        </section>
+
+        <section class="section section--span-2 b-b b-large b-solid b-light">
+            <h2>
+                Average:
+            </h2>
+
+            <button class="section__help-btn" title="Clicks divided by time">?</button>
+
+            <div class="value" x-html="cpsDisplay"></div>
+        </section>
+
+        <section class="section section--span-2 b-l b-b">
+            <h2>
+                Maximum:
+            </h2>
+
+            <button class="section__help-btn" title="Maximum average CPS">?</button>
+
+            <div class="value" x-html="cpsMaxDisplay"></div>
+        </section>
+
+        <section class="section section--span-full p-0">
+            <h2 class="color-clear">
+                Click here
+            </h2>
+
+            <button class="click-button" x-ref="btn" @mousedown="mouseDown" @mouseup="mouseUp"></button>
+            <div class="click-button__hold"></div>
+            <div class="click-button__background" :style="`--cps: ${cps}`"></div>
+        </section>
+
+        <section class="section section--span-3 b-t b-r">
+            <h2>
+                Clicks:
+            </h2>
+
+            <button class="section__help-btn" title="Restarts after 1 second idle">?</button>
+
+            <div class="value">
+                <span class="value__int" x-text="clicks"></span>
+            </div>
+        </section>
+
+        <section class="section section--span-3 b-t">
+            <h2>
+                Time:
+            </h2>
+
+            <div class="value" x-html="activeTimeDisplay"></div>
+        </section>
+    </main>
+
+    <footer class="b-r b-large b-solid">
+        &copy;
+        <span x-data x-text="new Date().getFullYear()"></span>
+    </footer>
+</body>
+
+</html>
